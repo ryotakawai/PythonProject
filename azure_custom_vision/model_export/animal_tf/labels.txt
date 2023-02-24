@@ -1,0 +1,10 @@
+Abyssinian
+american_bulldog
+american_pit_bull_terrier
+basset_hound
+beagle
+Bengal
+Birman
+Bombay
+pomeranian
+shiba_inu

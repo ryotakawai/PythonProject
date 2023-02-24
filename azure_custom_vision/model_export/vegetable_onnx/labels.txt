@@ -1,0 +1,10 @@
+banana
+cabbage
+carrot
+cucumber
+lettuce
+onion
+potato
+radish
+tomato
+watermelon
