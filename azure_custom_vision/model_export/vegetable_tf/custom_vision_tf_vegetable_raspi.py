@@ -3,15 +3,28 @@ import os
 from PIL import Image
 import numpy as np
 import cv2
+import datetime
+
+# 写真撮影
+dt_now = datetime.datetime.now()
+file_name = dt_now.strftime('%Y_%m_%d_%H_%M_%S')
+
+cap = cv2.VideoCapture(0)
+ret, frame = cap.read()
+
+cv2.imwrite(file_name + '.jpg', frame)
+cap.release()
+
+
 
 graph_def = tf.compat.v1.GraphDef()
 labels = []
 
 # model.pb ファイルはトレーニング済みのモデル
-filename = "./model_export/vegetable_tf/model.pb"
+filename = "./model.pb"
 
 # labels.txt ファイルは分類ラベル
-labels_filename = "./model_export/vegetable_tf/labels.txt"
+labels_filename = "./labels.txt"
 
 # モデルをプロジェクトにロードする
 with tf.io.gfile.GFile(filename, 'rb') as f:
@@ -66,8 +79,7 @@ def update_orientation(image):
 
 
 # テストデータをロードする
-#imageFile = "./vegetable/テストデータ/banana/reg0a6xjphd.jpeg"
-imageFile = "./vegetable/テストデータ/cabbage/キャベツC-min-770x578.jpg"
+imageFile = file_name + ".jpg"
 image = Image.open(imageFile)
 
 image = update_orientation(image)
