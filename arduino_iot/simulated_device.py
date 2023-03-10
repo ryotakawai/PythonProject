@@ -18,7 +18,6 @@ not_used = ser.readline()
 
 
 async def run_telemetry_sample(client):
-    # This sample will send temperature telemetry every second
     print("IoT Hub device sending periodic messages")
     print("")
 
