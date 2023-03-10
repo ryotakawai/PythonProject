@@ -2,6 +2,7 @@ import serial
 import json
 import datetime
 import requests
+import time
 
 
 # 社内LANでは繋がらない
@@ -20,12 +21,11 @@ token_body = {
 token_header = {"content-type": "application/json"}
 
 print("--------------------------------------Open Port--------------------------------------")
+print()
 
 # serial.Serial(シリアルポート, ボーレート)
 ser = serial.Serial('COM3', 9600, timeout=0.1) 
 not_used = ser.readline()
-
-
 
 def main():
 
@@ -34,6 +34,7 @@ def main():
         val_decoded = val_arduino.decode('utf-8')
         
         if val_decoded != "":
+            
             list = val_decoded.split("-")
 
             now = datetime.datetime.now()
@@ -46,7 +47,10 @@ def main():
                 "date": now_format
             }]
 
-            print("Request Now...")
+            print("###Request Now...")
+            print()
+            print(data)
+            print()
             token_response = requests.post(url_token, headers=token_header, json = token_body)
             token_text = token_response.json()
             token = token_text["token"]
@@ -59,17 +63,22 @@ def main():
 
             response = requests.post(url_post, headers=headers, json = data)
 
+
             if(response.status_code == 200):
-                print("Success")
+                print("###Success!")
+                print()
+                print("--------Wait 10 seconds-------")
+                print()
+                time.sleep(10)
                 continue
             else:
-                print("Failed")
+                print("###Failed...")
+                print()
+                print("--------------------------------------Close Port--------------------------------------")
+                print()
                 break
         else:
             continue
-
-        # print("--------------------------------------Close Port--------------------------------------")
-        # ser.close()
 
 if __name__ == '__main__':
     main()
